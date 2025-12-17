@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "./SGT.sol";
+import "./GLOW.sol";
 import "openzeppelin-contracts/contracts/finance/VestingWallet.sol";
 
 contract TokenDistributionManager {
 
-    event CreatedContracts(address sgt, address vestingCommunity, address vestingInvestors, address vestingFoundation, address vestingTreasury);
+    event CreatedContracts(address glow, address vestingCommunity, address vestingInvestors, address vestingFoundation, address vestingTreasury);
 
-    SGT public sgt;
+    GLOW public glow;
     VestingWallet public vestingCommunity;
     VestingWallet public vestingInvestors;
     VestingWallet public vestingFoundation;
@@ -49,7 +49,7 @@ contract TokenDistributionManager {
         foundation = _foundation;
         treasury = _treasury;
         
-        sgt = new SGT(address(this));
+        glow = new GLOW(address(this));
         vestingCommunity = new VestingWallet(community, currentTime + YEAR, YEAR * 4);
         vestingInvestors = new VestingWallet(investors, currentTime + YEAR, YEAR * 2);
         vestingFoundation = new VestingWallet(foundation, currentTime + YEAR, YEAR * 2);
@@ -57,14 +57,14 @@ contract TokenDistributionManager {
         
         executed = true;
 
-        sgt.transfer(address(vestingCommunity), 54_600_000 * 1e18);
-        sgt.transfer(address(vestingInvestors), 15_000_000 * 1e18);
-        sgt.transfer(address(vestingFoundation), 10_000_000 * 1e18);
-        sgt.transfer(address(vestingTreasury), 10_000_000 * 1e18);
-        sgt.transfer(_initialLiquidity, 10_400_000 * 1e18);
-        require(sgt.balanceOf(address(this)) == 0, "Manager Balance Not Zero");
+        glow.transfer(address(vestingCommunity), 54_600_000 * 1e18);
+        glow.transfer(address(vestingInvestors), 15_000_000 * 1e18);
+        glow.transfer(address(vestingFoundation), 10_000_000 * 1e18);
+        glow.transfer(address(vestingTreasury), 10_000_000 * 1e18);
+        glow.transfer(_initialLiquidity, 10_400_000 * 1e18);
+        require(glow.balanceOf(address(this)) == 0, "Manager Balance Not Zero");
 
-        emit CreatedContracts(address(sgt), address(vestingCommunity), address(vestingInvestors), address(vestingFoundation), address(vestingTreasury));
+        emit CreatedContracts(address(glow), address(vestingCommunity), address(vestingInvestors), address(vestingFoundation), address(vestingTreasury));
     }
 
     function renounce() external onlyOwner {

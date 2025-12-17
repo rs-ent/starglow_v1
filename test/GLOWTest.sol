@@ -2,13 +2,13 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import "../src/SGT.sol";
+import "../src/GLOW.sol";
 import "../src/TokenDistributionManager.sol";
 import "openzeppelin-contracts/contracts/finance/VestingWallet.sol";
 
-contract SGTTest is Test {
+contract GLOWTEST is Test {
 
-    SGT public sgt;
+    GLOW public glow;
     VestingWallet public vestingCommunity;     // community
     VestingWallet public vestingInvestors;    // investors
     VestingWallet public vestingFoundation;    // foundation
@@ -43,7 +43,7 @@ contract SGTTest is Test {
         vm.startPrank(owner);
 
         /**
-            TokenDistribution을 통해, execute하여 SGT 생성, 각 vestingWallet 생성 및 토큰 분배
+            TokenDistribution을 통해, execute하여 GLOW 생성, 각 vestingWallet 생성 및 토큰 분배
         */
 
         tokenDistributionManager.execute(
@@ -54,7 +54,7 @@ contract SGTTest is Test {
             initialLiquidity
         );
 
-        sgt = SGT(tokenDistributionManager.sgt());
+        glow = GLOW(tokenDistributionManager.glow());
 
         vestingCommunity = VestingWallet(tokenDistributionManager.vestingCommunity());
         vestingInvestors = VestingWallet(tokenDistributionManager.vestingInvestors());
@@ -62,21 +62,21 @@ contract SGTTest is Test {
         vestingTreasury = VestingWallet(tokenDistributionManager.vestingTreasury());
 
         console.log("vestingCommunity: ", address(vestingCommunity));
-        console.log("vestingCommunity Balance: ", sgt.balanceOf(address(vestingCommunity)));
+        console.log("vestingCommunity Balance: ", glow.balanceOf(address(vestingCommunity)));
 
         console.log("vestingInvestors: ", address(vestingInvestors));
-        console.log("vestingInvestors Balance: ", sgt.balanceOf(address(vestingInvestors)));
+        console.log("vestingInvestors Balance: ", glow.balanceOf(address(vestingInvestors)));
 
         console.log("vestingFoundation: ", address(vestingFoundation));
-        console.log("vestingFoundation Balance: ", sgt.balanceOf(address(vestingFoundation)));
+        console.log("vestingFoundation Balance: ", glow.balanceOf(address(vestingFoundation)));
 
         console.log("vestingTreasury: ", address(vestingTreasury));
-        console.log("vestingTreasury Balance: ", sgt.balanceOf(address(vestingTreasury)));
+        console.log("vestingTreasury Balance: ", glow.balanceOf(address(vestingTreasury)));
 
         // year == lockup끝나는날, year + month == 30/730 금액을 받을 수 있음
         vm.warp(year * 1 + month);  
 
-        vestingInvestors.releasable(address(sgt));
-        vestingInvestors.release(address(sgt)); // 616438108567381586640956 [6.164e23]
+        vestingInvestors.releasable(address(glow));
+        vestingInvestors.release(address(glow)); // 616438108567381586640956 [6.164e23]
     }
 }

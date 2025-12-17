@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {Script} from "forge-std/Script.sol";
 import "forge-std/Test.sol";
-import "../src/SGT.sol";
+import "../src/GLOW.sol";
 import "../src/TokenDistributionManager.sol";
 import "openzeppelin-contracts/contracts/finance/VestingWallet.sol";
 
@@ -24,7 +24,7 @@ contract SafeScript is Script {
         tokenDistributionManager = new TokenDistributionManager(msg.sender);
         tokenDistributionManager.execute(community, investors, foundation, treasury, initialLiquidity);
 
-        console.log("SGT: ", address(tokenDistributionManager.sgt()));
+        console.log("GLOW: ", address(tokenDistributionManager.glow()));
         console.log("vesitngCommunity: ", address(tokenDistributionManager.vestingCommunity()));
         console.log("vestingInvestors: ", address(tokenDistributionManager.vestingInvestors()));
         console.log("vestingFoundation: ", address(tokenDistributionManager.vestingFoundation()));
