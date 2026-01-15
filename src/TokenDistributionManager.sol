@@ -6,7 +6,8 @@ import "openzeppelin-contracts/contracts/finance/VestingWallet.sol";
 
 contract TokenDistributionManager {
 
-    event CreatedContracts(address glow, address vestingCommunity, address vestingInvestors, address vestingFoundation, address vestingTreasury);
+    event CreatedContracts(address glow, address vestingCommunity, address vestingInvestors, address vestingFoundation, address vestingTreasury, address initialLiquidity);
+    event Renounced();
 
     GLOW public glow;
     VestingWallet public vestingCommunity;
@@ -64,12 +65,14 @@ contract TokenDistributionManager {
         glow.transfer(_initialLiquidity, 10_400_000 * 1e18);
         require(glow.balanceOf(address(this)) == 0, "Manager Balance Not Zero");
 
-        emit CreatedContracts(address(glow), address(vestingCommunity), address(vestingInvestors), address(vestingFoundation), address(vestingTreasury));
+        emit CreatedContracts(address(glow), address(vestingCommunity), address(vestingInvestors), address(vestingFoundation), address(vestingTreasury), _initialLiquidity);
     }
 
     function renounce() external onlyOwner {
         require(executed, "Not Executed Yet");
 
         owner = address(0);
+
+        emit Renounced();
     }
 }
